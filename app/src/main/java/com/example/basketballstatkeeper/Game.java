@@ -2,13 +2,23 @@ package com.example.basketballstatkeeper;
 
 public class Game {
 
-    public int minutesPlayed;
-    public int points;
-    public int rebounds;
-    public int assists;
-    public int steals;
-    public int blocks;
-    public int turnovers;
+    private int minutesPlayed;
+    private int points;
+    private int rebounds;
+    private int assists;
+    private int steals;
+    private int blocks;
+    private int turnovers;
+
+    public Game(int minutesPlayed, int points, int rebounds, int assists, int steals, int blocks, int turnovers) {
+        this.minutesPlayed = minutesPlayed;
+        this.points = points;
+        this.rebounds = rebounds;
+        this.assists = assists;
+        this.steals = steals;
+        this.blocks = blocks;
+        this.turnovers = turnovers;
+    }
 
     public int getMinutesPlayed() {
         return minutesPlayed;

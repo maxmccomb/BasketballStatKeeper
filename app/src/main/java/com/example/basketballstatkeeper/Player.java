@@ -4,65 +4,72 @@ import java.util.ArrayList;
 
 public class Player {
 
-    ArrayList<Game> games;
+    private Game game;
 
-    public Player() {
-        games = new ArrayList();
+    public Player(Game game) {
+        this.game = game;
     }
 
-    public double getAveragePoints(){
+    public Game getGame(){
+        return game;
+    }
+
+
+
+    /*public double getAveragePoints(){
         int sum = 0;
-        for (int i = 0; i < games.size(); i++){
-            sum += games.get(i).getPoints();
+        for (int i = 0; i < game.size(); i++){
+            sum += game.get(i).getPoints();
         }
-        return sum/games.size();
+        return sum/ game.size();
     }
 
     public double getAverageRebounds(){
         int sum = 0;
-        for (int i = 0; i < games.size(); i++){
-            sum += games.get(i).getRebounds();
+        for (int i = 0; i < game.size(); i++){
+            sum += game.get(i).getRebounds();
         }
-        return sum/games.size();
+        return sum/ game.size();
     }
 
     public double getAverageMinutesPlayed(){
         int sum = 0;
-        for (int i = 0; i < games.size(); i++){
-            sum += games.get(i).getMinutesPlayed();
+        for (int i = 0; i < game.size(); i++){
+            sum += game.get(i).getMinutesPlayed();
         }
-        return sum/games.size();
+        return sum/ game.size();
     }
 
     public double getAverageAssists(){
         int sum = 0;
-        for (int i = 0; i < games.size(); i++){
-            sum += games.get(i).getAssists();
+        for (int i = 0; i < game.size(); i++){
+            sum += game.get(i).getAssists();
         }
-        return sum/games.size();
+        return sum/ game.size();
     }
 
     public double getAverageSteals(){
         int sum = 0;
-        for (int i = 0; i < games.size(); i++){
-            sum += games.get(i).getSteals();
+        for (int i = 0; i < game.size(); i++){
+            sum += game.get(i).getSteals();
         }
-        return sum/games.size();
+        return sum/ game.size();
     }
 
     public double getAverageBlocks(){
         int sum = 0;
-        for (int i = 0; i < games.size(); i++){
-            sum += games.get(i).getBlocks();
+        for (int i = 0; i < game.size(); i++){
+            sum += game.get(i).getBlocks();
         }
-        return sum/games.size();
+        return sum/ game.size();
     }
 
     public double getAverageTurnovers(){
         int sum = 0;
-        for (int i = 0; i < games.size(); i++){
-            sum += games.get(i).getTurnovers();
+        for (int i = 0; i < game.size(); i++){
+            sum += game.get(i).getTurnovers();
         }
-        return sum/games.size();
+        return sum/ game.size();
     }
+     */
 }
