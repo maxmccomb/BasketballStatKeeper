@@ -4,12 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -17,10 +16,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,12 +28,11 @@ public class MainActivity extends AppCompatActivity {
     EditText turnoversField;
 
     Button submitButton;
+    EditText gameNumberField;
 
     Player player;
 
     FirebaseDatabase db = FirebaseDatabase.getInstance();
-    DatabaseReference numRef = db.getReference("NumGames");
-    int numGames;
     DatabaseReference gameRef = db.getReference("Game"+"1");
     DatabaseReference minutesRef = gameRef.child("Minutes");
     DatabaseReference pointsRef = gameRef.child("Points");
@@ -47,6 +41,11 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference stealsRef = gameRef.child("Steals");
     DatabaseReference blocksRef = gameRef.child("Blocks");
     DatabaseReference turnoversRef = gameRef.child("Turnovers");
+
+    DatabaseReference ngf = db.getReference("ng");
+    DatabaseReference numGamesRef = ngf.child("numGame");
+    final int numGames = 2;
+
 
 
 
@@ -58,8 +57,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //pullNumGames();
         initializeTextFields();
-        initializePlayer();
+        initializeData();
 
 
 
@@ -71,6 +71,31 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        gameNumberField.addTextChangedListener(new TextWatcher() {
+            public void onTextChanged(CharSequence c, int start, int before, int count) {
+                if (!c.toString().matches("")){
+                    int gameIndex = Integer.parseInt(c.toString());
+                    if (gameIndex < numGames+1) {
+                        updateDatabaseReferences(gameIndex);
+                        updateLocalData(gameIndex - 1);
+                    }
+                    else{
+                        Toast.makeText(MainActivity.this, "You only have " + numGames + " saved games.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+
+            public void beforeTextChanged(CharSequence c, int start, int count, int after) {
+                // this space intentionally left blank
+            }
+
+            public void afterTextChanged(Editable c) {
+                // this one too
+            }
+        });
+
+        System.out.println("DONE WITH ONCREATE METHOD");
     }
 
     public void initializeTextFields(){
@@ -81,20 +106,55 @@ public class MainActivity extends AppCompatActivity {
         stealsField = findViewById(R.id.editTextSteals);
         blocksField = findViewById(R.id.editTextBlocks);
         turnoversField = findViewById(R.id.editTextTO);
-
+        gameNumberField = findViewById(R.id.gameNumber);
     }
 
-    public void initializePlayer(){
-        Game game = new Game(0,0,0,0,0,0,0);
+    public void initializeData(){
+        System.out.println("NUM GAMES AFTER "+ numGames);
+        Game game = new Game(0, 0, 0, 0, 0, 0, 0);
         player = new Player(game);
-        updateLocalData();
+        updateLocalData(0);
+        if(numGames > 1) {
+            for (int i = 1; i < numGames; i++) {
+                addGame();
+                updateDatabaseReferences(i+1);
+                updateLocalData(i);
+            }
+        }
+
+
+        System.out.println("DONE WITH INITIALIZE DATA");
     }
 
-    public void updateLocalData() {
+    public void addGame(){
+        Game game = new Game(0,0,0,0,0,0,0);
+        player.addGame(game);
+        //numGames = player.getNumGames();
+        //numGamesRef.setValue("" + numGames);
+    }
+
+    /*public void pullNumGames(){
+        numGamesRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                System.out.println("" + dataSnapshot.getValue());
+                //numGames = (Integer.parseInt(""+dataSnapshot.getValue()));
+                System.out.println("NUM GAMES INITIALIZED TO "+numGames);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }*/
+
+    public void updateLocalData(final int gameIndex) {
+
         minutesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                player.getGame().setMinutesPlayed(Integer.parseInt(""+dataSnapshot.getValue()));
+                player.getGame(gameIndex).setMinutesPlayed(Integer.parseInt(""+dataSnapshot.getValue()));
                 minutesField.setText(""+dataSnapshot.getValue());
             }
 
@@ -106,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
         pointsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                player.getGame().setPoints(Integer.parseInt(""+dataSnapshot.getValue()));
+                player.getGame(gameIndex).setPoints(Integer.parseInt(""+dataSnapshot.getValue()));
                 pointsField.setText(""+dataSnapshot.getValue());
 
             }
@@ -119,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
         assistsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                player.getGame().setAssists(Integer.parseInt(""+dataSnapshot.getValue()));
+                player.getGame(gameIndex).setAssists(Integer.parseInt(""+dataSnapshot.getValue()));
                 assistsField.setText(""+dataSnapshot.getValue());
             }
 
@@ -131,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
         reboundsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                player.getGame().setRebounds(Integer.parseInt(""+dataSnapshot.getValue()));
+                player.getGame(gameIndex).setRebounds(Integer.parseInt(""+dataSnapshot.getValue()));
                 reboundsField.setText(""+dataSnapshot.getValue());
             }
 
@@ -143,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
         stealsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                player.getGame().setSteals(Integer.parseInt(""+dataSnapshot.getValue()));
+                player.getGame(gameIndex).setSteals(Integer.parseInt(""+dataSnapshot.getValue()));
                 stealsField.setText(""+dataSnapshot.getValue());
             }
 
@@ -155,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
         blocksRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                player.getGame().setBlocks(Integer.parseInt(""+dataSnapshot.getValue()));
+                player.getGame(gameIndex).setBlocks(Integer.parseInt(""+dataSnapshot.getValue()));
                 blocksField.setText(""+dataSnapshot.getValue());
             }
 
@@ -167,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
         turnoversRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                player.getGame().setTurnovers(Integer.parseInt(""+dataSnapshot.getValue()));
+                player.getGame(gameIndex).setTurnovers(Integer.parseInt(""+dataSnapshot.getValue()));
                 turnoversField.setText(""+dataSnapshot.getValue());
             }
 
@@ -176,11 +236,9 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
-    public void setUpDatabaseReferences(int index){
+    public void updateDatabaseReferences(int index){
          gameRef = db.getReference("Game"+index);
          minutesRef = gameRef.child("Minutes");
          pointsRef = gameRef.child("Points");
