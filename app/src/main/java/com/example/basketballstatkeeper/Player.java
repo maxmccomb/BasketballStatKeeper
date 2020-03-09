@@ -28,7 +28,7 @@ public class Player {
 
 
 
-
+    //below are getter methods for average and totals of all stat categories
     public double getAveragePoints(){
         int sum = 0;
         for (int i = 0; i < games.size(); i++){
@@ -37,6 +37,13 @@ public class Player {
         return sum/ games.size();
     }
 
+    public int getTotalPoints(){
+        int sum = 0;
+        for (int i = 0; i < games.size(); i++){
+            sum += games.get(i).getPoints();
+        }
+        return sum;
+    }
 
     public double getAverageRebounds(){
         int sum = 0;
@@ -44,6 +51,14 @@ public class Player {
             sum += games.get(i).getRebounds();
         }
         return sum/ games.size();
+    }
+
+    public int getTotalRebounds(){
+        int sum = 0;
+        for (int i = 0; i < games.size(); i++){
+            sum += games.get(i).getRebounds();
+        }
+        return sum;
     }
 
     public double getAverageMinutesPlayed(){
@@ -54,12 +69,28 @@ public class Player {
         return sum/ games.size();
     }
 
+    public int getTotalMinutesPlayed(){
+        int sum = 0;
+        for (int i = 0; i < games.size(); i++){
+            sum += games.get(i).getMinutesPlayed();
+        }
+        return sum;
+    }
+
     public double getAverageAssists(){
         int sum = 0;
         for (int i = 0; i < games.size(); i++){
             sum += games.get(i).getAssists();
         }
         return sum/ games.size();
+    }
+
+    public int getTotalAssists(){
+        int sum = 0;
+        for (int i = 0; i < games.size(); i++){
+            sum += games.get(i).getAssists();
+        }
+        return sum;
     }
 
     public double getAverageSteals(){
@@ -70,6 +101,14 @@ public class Player {
         return sum/ games.size();
     }
 
+    public int getTotalSteals(){
+        int sum = 0;
+        for (int i = 0; i < games.size(); i++){
+            sum += games.get(i).getSteals();
+        }
+        return sum;
+    }
+
     public double getAverageBlocks(){
         int sum = 0;
         for (int i = 0; i < games.size(); i++){
@@ -78,12 +117,28 @@ public class Player {
         return sum/ games.size();
     }
 
+    public int getTotalBlocks(){
+        int sum = 0;
+        for (int i = 0; i < games.size(); i++){
+            sum += games.get(i).getBlocks();
+        }
+        return sum;
+    }
+
     public double getAverageTurnovers(){
         int sum = 0;
         for (int i = 0; i < games.size(); i++){
             sum += games.get(i).getTurnovers();
         }
         return sum/ games.size();
+    }
+
+    public int getTotalTurnovers(){
+        int sum = 0;
+        for (int i = 0; i < games.size(); i++){
+            sum += games.get(i).getTurnovers();
+        }
+        return sum;
     }
 
 }
