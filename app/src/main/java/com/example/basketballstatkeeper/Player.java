@@ -1,5 +1,6 @@
 package com.example.basketballstatkeeper;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Player {
@@ -27,6 +28,7 @@ public class Player {
 
 
 
+
     public double getAveragePoints(){
         int sum = 0;
         for (int i = 0; i < games.size(); i++){
@@ -34,6 +36,7 @@ public class Player {
         }
         return sum/ games.size();
     }
+
 
     public double getAverageRebounds(){
         int sum = 0;

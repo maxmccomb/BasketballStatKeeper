@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">BasketballStatKeeper</string>
-    <string-array name="gamesSpinner">
-        <item>"1"</item>
+    <string-array name="analyticsSpinner">
+        <item>"Totals"</item>
+        <item>"Averages"</item>>
     </string-array>
 
 </resources>

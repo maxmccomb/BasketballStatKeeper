@@ -116,22 +116,14 @@ public class MainActivity extends AppCompatActivity {
         updateLocalData(0);
         if(numGames > 1) {
             for (int i = 1; i < numGames; i++) {
-                addGame();
+                player.addGame(new Game (0,0,0,0,0,0,0));
                 updateDatabaseReferences(i+1);
                 updateLocalData(i);
             }
         }
-
-
         System.out.println("DONE WITH INITIALIZE DATA");
     }
 
-    public void addGame(){
-        Game game = new Game(0,0,0,0,0,0,0);
-        player.addGame(game);
-        //numGames = player.getNumGames();
-        //numGamesRef.setValue("" + numGames);
-    }
 
     /*public void pullNumGames(){
         numGamesRef.addValueEventListener(new ValueEventListener() {
