@@ -53,8 +53,7 @@ public class AnalyticsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analytics);
 
-        //NEED TO INITIALIZE THE TEXT FIELDS
-        //NEED TO CREATE TEXT FIELDS
+        initializeTextFields();
         initializeData();
         setTotals();
 
@@ -131,6 +130,7 @@ public class AnalyticsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 player.getGame(gameIndex).setMinutesPlayed(Integer.parseInt(""+dataSnapshot.getValue()));
+                System.out.println(gameIndex + " MINS: " + player.getGame(gameIndex).getMinutesPlayed());
             }
 
             @Override
@@ -142,6 +142,7 @@ public class AnalyticsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 player.getGame(gameIndex).setPoints(Integer.parseInt(""+dataSnapshot.getValue()));
+                System.out.println(gameIndex + " POINTS: " + player.getGame(gameIndex).getPoints());
 
             }
 
@@ -154,6 +155,8 @@ public class AnalyticsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 player.getGame(gameIndex).setAssists(Integer.parseInt(""+dataSnapshot.getValue()));
+                System.out.println(gameIndex + " Assists: " + player.getGame(gameIndex).getAssists());
+
             }
 
             @Override
@@ -165,6 +168,8 @@ public class AnalyticsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 player.getGame(gameIndex).setRebounds(Integer.parseInt(""+dataSnapshot.getValue()));
+                System.out.println(gameIndex + " Rebounds: " + player.getGame(gameIndex).getRebounds());
+
             }
 
             @Override
@@ -176,6 +181,8 @@ public class AnalyticsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 player.getGame(gameIndex).setSteals(Integer.parseInt(""+dataSnapshot.getValue()));
+                System.out.println(gameIndex + " STEALS: " + player.getGame(gameIndex).getSteals());
+
             }
 
             @Override
@@ -187,6 +194,8 @@ public class AnalyticsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 player.getGame(gameIndex).setBlocks(Integer.parseInt(""+dataSnapshot.getValue()));
+                System.out.println(gameIndex + " BLOCKS: " + player.getGame(gameIndex).getBlocks());
+
             }
 
             @Override
@@ -198,6 +207,8 @@ public class AnalyticsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 player.getGame(gameIndex).setTurnovers(Integer.parseInt(""+dataSnapshot.getValue()));
+                System.out.println(gameIndex + " TOS: " + player.getGame(gameIndex).getTurnovers());
+
             }
 
             @Override
@@ -208,6 +219,12 @@ public class AnalyticsActivity extends AppCompatActivity {
     }
 
     public void initializeTextFields(){
-
+         minutesDisplay = findViewById(R.id.minutesStatView);
+         pointsDisplay = findViewById(R.id.pointsStatView);
+         assistsDisplay = findViewById(R.id.assistsStatView);
+         reboundsDisplay = findViewById(R.id.reboundsStatView);
+         stealsDisplay = findViewById(R.id.stealsStatView);
+         blocksDisplay = findViewById(R.id.blocksStatView);
+         turnoversDisplay = findViewById(R.id.TOsStatView);
     }
 }
