@@ -29,7 +29,7 @@ public class AnalyticsActivity extends AppCompatActivity {
     TextView blocksDisplay;
     TextView turnoversDisplay;
 
-    DecimalFormat df = new DecimalFormat("##0.00");
+    DecimalFormat df = new DecimalFormat("###.00");
 
 
     FirebaseDatabase db = FirebaseDatabase.getInstance();
@@ -103,7 +103,6 @@ public class AnalyticsActivity extends AppCompatActivity {
         System.out.println("NUM GAMES AFTER " + numGames);
         Game game = new Game(0, 0, 0, 0, 0, 0, 0);
         player = new Player(game);
-        player.addGame(game);
         initializeGameStats(0);
         if (numGames > 1) {
             for (int i = 1; i < numGames; i++) {

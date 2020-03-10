@@ -7,10 +7,17 @@ public class Player {
 
     private ArrayList<Game> games;
 
+    public Player(){
+    }
 
-    public Player(Game game) {
-        games = new ArrayList<>();
+
+    public Player(Game game, ArrayList<Game> g) {
+        games = g;
         games.add(game);
+    }
+
+    public ArrayList<Game> getGames(){
+        return games;
     }
 
     public Game getGame(int index){
@@ -31,7 +38,7 @@ public class Player {
     //below are getter methods for average and totals of all stat categories
     public double getAveragePoints(){
         System.out.println("GAMES SIZE: " + games.size());
-        int sum = 0;
+         double sum = 0;
         for (int i = 0; i < games.size(); i++){
             sum += games.get(i).getPoints();
         }
@@ -49,7 +56,7 @@ public class Player {
 
     public double getAverageRebounds(){
         System.out.println("GAMES SIZE: " + games.size());
-        int sum = 0;
+        double sum = 0;
         for (int i = 0; i < games.size(); i++){
             sum += games.get(i).getRebounds();
         }
@@ -67,7 +74,7 @@ public class Player {
 
     public double getAverageMinutesPlayed(){
         System.out.println("GAMES SIZE: " + games.size());
-        int sum = 0;
+        double sum = 0;
         for (int i = 0; i < games.size(); i++){
             sum += games.get(i).getMinutesPlayed();
         }
@@ -85,7 +92,7 @@ public class Player {
 
     public double getAverageAssists(){
         System.out.println("GAMES SIZE: " + games.size());
-        int sum = 0;
+        double sum = 0;
         for (int i = 0; i < games.size(); i++){
             sum += games.get(i).getAssists();
         }
@@ -103,7 +110,7 @@ public class Player {
 
     public double getAverageSteals(){
         System.out.println("GAMES SIZE: " + games.size());
-        int sum = 0;
+        double sum = 0;
         for (int i = 0; i < games.size(); i++){
             sum += games.get(i).getSteals();
         }
@@ -121,7 +128,7 @@ public class Player {
 
     public double getAverageBlocks(){
         System.out.println("GAMES SIZE: " + games.size());
-        int sum = 0;
+        double sum = 0;
         for (int i = 0; i < games.size(); i++){
             sum += games.get(i).getBlocks();
         }
@@ -139,7 +146,7 @@ public class Player {
 
     public double getAverageTurnovers(){
         System.out.println("GAMES SIZE: " + games.size());
-        int sum = 0;
+        double sum = 0;
         for (int i = 0; i < games.size(); i++){
             sum += games.get(i).getTurnovers();
         }
