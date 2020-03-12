@@ -33,18 +33,7 @@ public class AnalyticsActivity extends AppCompatActivity {
 
 
     FirebaseDatabase db = FirebaseDatabase.getInstance();
-    DatabaseReference gameRef = db.getReference("Game"+"1");
-    DatabaseReference minutesRef = gameRef.child("Minutes");
-    DatabaseReference pointsRef = gameRef.child("Points");
-    DatabaseReference assistsRef = gameRef.child("Assists");
-    DatabaseReference reboundsRef = gameRef.child("Rebounds");
-    DatabaseReference stealsRef = gameRef.child("Steals");
-    DatabaseReference blocksRef = gameRef.child("Blocks");
-    DatabaseReference turnoversRef = gameRef.child("Turnovers");
-
-    DatabaseReference ngf = db.getReference("ng");
-    DatabaseReference numGamesRef = ngf.child("numGame");
-    final int numGames = 2;
+    DatabaseReference playerNumRef = db.getReference("Players");
 
     Player player;
 
@@ -100,114 +89,10 @@ public class AnalyticsActivity extends AppCompatActivity {
     }
 
     public void initializeData() {
-        System.out.println("NUM GAMES AFTER " + numGames);
-        Game game = new Game(0, 0, 0, 0, 0, 0, 0);
-        player = new Player(game);
-        initializeGameStats(0);
-        if (numGames > 1) {
-            for (int i = 1; i < numGames; i++) {
-                player.addGame(new Game (0,0,0,0,0,0,0));
-                updateDatabaseReferences(i + 1);
-                initializeGameStats(i);
-            }
-        }
-    }
-
-    public void updateDatabaseReferences(int index){
-        gameRef = db.getReference("Game"+index);
-        minutesRef = gameRef.child("Minutes");
-        pointsRef = gameRef.child("Points");
-        assistsRef = gameRef.child("Assists");
-        reboundsRef = gameRef.child("Rebounds");
-        stealsRef = gameRef.child("Steals");
-        blocksRef = gameRef.child("Blocks");
-        turnoversRef = gameRef.child("Turnovers");
-    }
-
-    public void initializeGameStats(final int gameIndex){
-        minutesRef.addValueEventListener(new ValueEventListener() {
+        playerNumRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                player.getGame(gameIndex).setMinutesPlayed(Integer.parseInt(""+dataSnapshot.getValue()));
-                System.out.println(gameIndex + " MINS: " + player.getGame(gameIndex).getMinutesPlayed());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        pointsRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                player.getGame(gameIndex).setPoints(Integer.parseInt(""+dataSnapshot.getValue()));
-                System.out.println(gameIndex + " POINTS: " + player.getGame(gameIndex).getPoints());
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        assistsRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                player.getGame(gameIndex).setAssists(Integer.parseInt(""+dataSnapshot.getValue()));
-                System.out.println(gameIndex + " Assists: " + player.getGame(gameIndex).getAssists());
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        reboundsRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                player.getGame(gameIndex).setRebounds(Integer.parseInt(""+dataSnapshot.getValue()));
-                System.out.println(gameIndex + " Rebounds: " + player.getGame(gameIndex).getRebounds());
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        stealsRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                player.getGame(gameIndex).setSteals(Integer.parseInt(""+dataSnapshot.getValue()));
-                System.out.println(gameIndex + " STEALS: " + player.getGame(gameIndex).getSteals());
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        blocksRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                player.getGame(gameIndex).setBlocks(Integer.parseInt(""+dataSnapshot.getValue()));
-                System.out.println(gameIndex + " BLOCKS: " + player.getGame(gameIndex).getBlocks());
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        turnoversRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                player.getGame(gameIndex).setTurnovers(Integer.parseInt(""+dataSnapshot.getValue()));
-                System.out.println(gameIndex + " TOS: " + player.getGame(gameIndex).getTurnovers());
-
+                player = dataSnapshot.getValue(Player.class);
             }
 
             @Override

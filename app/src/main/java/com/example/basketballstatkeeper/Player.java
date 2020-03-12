@@ -11,9 +11,8 @@ public class Player {
     }
 
 
-    public Player(Game game, ArrayList<Game> g) {
+    public Player(ArrayList<Game> g) {
         games = g;
-        games.add(game);
     }
 
     public ArrayList<Game> getGames(){
