@@ -10,6 +10,10 @@ public class Game {
     private int blocks;
     private int turnovers;
 
+    public Game() {
+
+    }
+
     public Game(int minutesPlayed, int points, int rebounds, int assists, int steals, int blocks, int turnovers) {
         this.minutesPlayed = minutesPlayed;
         this.points = points;
