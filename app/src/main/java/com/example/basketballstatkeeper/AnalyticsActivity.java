@@ -33,9 +33,8 @@ public class AnalyticsActivity extends AppCompatActivity {
 
 
     FirebaseDatabase db = FirebaseDatabase.getInstance();
-    DatabaseReference playerNumRef = db.getReference("Players");
-
-    Player player;
+    // beginning the DB with "Teams" for future expanding
+    DatabaseReference dbRef = db.getReference("Teams");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +42,7 @@ public class AnalyticsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_analytics);
 
         initializeTextFields();
-        initializeData();
-        setTotals();
+
 
         spinner = findViewById(R.id.analyticsSpinner);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -68,31 +66,41 @@ public class AnalyticsActivity extends AppCompatActivity {
     }
 
     public void setTotals(){
-        minutesDisplay.setText(""+ player.getTotalMinutesPlayed());
-        pointsDisplay.setText("" + player.getTotalPoints());
-        assistsDisplay.setText("" + player.getTotalAssists());
-        reboundsDisplay.setText("" + player.getTotalRebounds());
-        stealsDisplay.setText("" + player.getTotalSteals());
-        blocksDisplay.setText("" + player.getTotalBlocks());
-        turnoversDisplay.setText(""+player.getTotalTurnovers());
+        DatabaseReference playerRef = dbRef.child("Augustana Vikings").child("Players").child("Max");
+        playerRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Player player = dataSnapshot.getValue(Player.class);
+                minutesDisplay.setText(""+ player.getTotalMinutesPlayed());
+                pointsDisplay.setText("" + player.getTotalPoints());
+                assistsDisplay.setText("" + player.getTotalAssists());
+                reboundsDisplay.setText("" + player.getTotalRebounds());
+                stealsDisplay.setText("" + player.getTotalSteals());
+                blocksDisplay.setText("" + player.getTotalBlocks());
+                turnoversDisplay.setText(""+player.getTotalTurnovers());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     public void setAverages(){
-        minutesDisplay.setText("" + df.format(player.getAverageMinutesPlayed()));
-        pointsDisplay.setText("" + df.format(player.getAveragePoints()));
-        assistsDisplay.setText("" + df.format(player.getAverageAssists()));
-        reboundsDisplay.setText("" + df.format(player.getAverageRebounds()));
-        stealsDisplay.setText("" + df.format(player.getAverageSteals()));
-        blocksDisplay.setText("" + df.format(player.getAverageBlocks()));
-        turnoversDisplay.setText("" + df.format(player.getAverageTurnovers()));
-
-    }
-
-    public void initializeData() {
-        playerNumRef.addValueEventListener(new ValueEventListener() {
+        DatabaseReference playerRef = dbRef.child("Augustana Vikings").child("Players").child("Max");
+        playerRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                player = dataSnapshot.getValue(Player.class);
+                Player player = dataSnapshot.getValue(Player.class);
+                minutesDisplay.setText("" + df.format(player.getAverageMinutesPlayed()));
+                pointsDisplay.setText("" + df.format(player.getAveragePoints()));
+                assistsDisplay.setText("" + df.format(player.getAverageAssists()));
+                reboundsDisplay.setText("" + df.format(player.getAverageRebounds()));
+                stealsDisplay.setText("" + df.format(player.getAverageSteals()));
+                blocksDisplay.setText("" + df.format(player.getAverageBlocks()));
+                turnoversDisplay.setText("" + df.format(player.getAverageTurnovers()));
             }
 
             @Override
@@ -101,6 +109,8 @@ public class AnalyticsActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     public void initializeTextFields(){
          minutesDisplay = findViewById(R.id.minutesStatView);

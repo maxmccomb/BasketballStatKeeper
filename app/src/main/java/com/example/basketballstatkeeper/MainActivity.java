@@ -44,20 +44,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         // TODO:
         /**
          * This was me adding a player / games to a DB. When you first pull this version you will need
          * to un-comment this and run this once to setup your DB how I had this working
          */
-//        ArrayList<Game> games = new ArrayList<>();
-//        Game game1 = new Game(1,1,1,1,1,1,1);
-//        Game game2 = new Game(0,0,0,0,0,0,0);
-//        Game game3 = new Game(1,1,1,1,1,1,1);
-//        games.add(game1);
-//        games.add(game2);
-//        games.add(game3);
-//        Player player = new Player(games);
-//        dbRef.child("Augustana Vikings").child("Players").child("Max").setValue(player);
+        /*ArrayList<Game> games = new ArrayList<>();
+        Game game1 = new Game(1,1,1,1,1,1,1);
+        Game game2 = new Game(0,0,0,0,0,0,0);
+        Game game3 = new Game(1,1,1,1,1,1,1);
+        games.add(game1);
+        games.add(game2);
+        games.add(game3);
+        Player player = new Player(games);
+        dbRef.child("Augustana Vikings").child("Players").child("Max").setValue(player);*/
 
         initializeTextFields();
         initializeData();
@@ -169,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
                 Integer.parseInt(stealsField.getText().toString()),
                 Integer.parseInt(blocksField.getText().toString()),
                 Integer.parseInt(turnoversField.getText().toString()));
+
         playerRef.child("games").child(String.valueOf(gameIndex)).setValue(game);
 
     }
