@@ -66,7 +66,7 @@ public class AnalyticsActivity extends AppCompatActivity {
     }
 
     public void setTotals(){
-        DatabaseReference playerRef = dbRef.child("Augustana Vikings").child("Players").child("Max");
+        DatabaseReference playerRef = dbRef.child("My Team").child("Players").child("Max");
         playerRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -89,7 +89,7 @@ public class AnalyticsActivity extends AppCompatActivity {
     }
 
     public void setAverages(){
-        DatabaseReference playerRef = dbRef.child("Augustana Vikings").child("Players").child("Max");
+        DatabaseReference playerRef = dbRef.child("My Team").child("Players").child("Max");
         playerRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

@@ -132,9 +132,9 @@ public class MainActivity extends AppCompatActivity {
          to pass a string value into where "Max" currently is..same for the team value
 
          "Max" -> currentPlayer
-         "Augustana Vikings" -> currentTeam
+         "My Team" -> currentTeam
          */
-        DatabaseReference teamRef = dbRef.child("Augustana Vikings");
+        DatabaseReference teamRef = dbRef.child("My Team");
         teamRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
     This is how you can update the current team player Max's values of the current game
      */
     public void updateDatabase(int gameIndex) {
-        DatabaseReference playerRef = dbRef.child("Augustana Vikings").child("players").child(String.valueOf(playerIndex));
+        DatabaseReference playerRef = dbRef.child("My Team").child("players").child(String.valueOf(playerIndex));
         Game game;
         if(gameIndex > numGames || gameIndex < 0){
             Toast.makeText(MainActivity.this, "Invalid Game Index", Toast.LENGTH_SHORT).show();

@@ -44,8 +44,7 @@ public class ChoosePlayerActivity extends AppCompatActivity {
 
         // TODO:
         /**
-         * This was me adding a player / games to a DB. When you first pull this version you will need
-         * to un-comment this and run this once to setup your DB how I had this working
+         * Initializes to Test data
          */
         ArrayList<Game> games = new ArrayList<>();
         Game game1 = new Game(1,1,1,1,1,1,1);
@@ -55,7 +54,7 @@ public class ChoosePlayerActivity extends AppCompatActivity {
         games.add(game2);
         games.add(game3);
         Player player = new Player(games, "Max");
-        //dbRef.child("Augustana Vikings").child("Players").child("Max").setValue(player);
+        //dbRef.child("My Team").child("Players").child("Max").setValue(player);
 
        ArrayList<Game> games2 = new ArrayList<>();
         Game game11 = new Game(1,1,1,1,1,1,1);
@@ -63,14 +62,14 @@ public class ChoosePlayerActivity extends AppCompatActivity {
         games2.add(game11);
         games2.add(game22);
         Player player2 = new Player(games2, "Dylan");
-        //dbRef.child("Augustana Vikings").child("Players").child("Dylan").setValue(player2);
+        //dbRef.child("My Team").child("Players").child("Dylan").setValue(player2);
 
         ArrayList<Player> ps = new ArrayList<>();
         ps.add(player);
         ps.add(player2);
         Team team = new Team(ps);
 
-        dbRef.child("Augustana Vikings").setValue(team);
+        dbRef.child("My Team").setValue(team);
 
 
         playerNameEditText = findViewById(R.id.playerNameEditText);
@@ -145,7 +144,7 @@ public class ChoosePlayerActivity extends AppCompatActivity {
     }
 
     public void pullDBData(){
-        final DatabaseReference teamRef = dbRef.child("Augustana Vikings");
+        final DatabaseReference teamRef = dbRef.child("My Team");
         teamRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -161,7 +160,7 @@ public class ChoosePlayerActivity extends AppCompatActivity {
     }
 
     public void addPlayerToDB(final String n){
-        DatabaseReference teamRef = dbRef.child("Augustana Vikings");
+        DatabaseReference teamRef = dbRef.child("My Team");
         ArrayList<Game> gs = new ArrayList<>();
         gs.add(new Game(0,0,0,0,0,0,0));
         Player p = new Player(gs, n);
