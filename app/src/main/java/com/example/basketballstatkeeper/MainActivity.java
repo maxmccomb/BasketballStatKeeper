@@ -3,6 +3,7 @@ package com.example.basketballstatkeeper;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.Editable;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     // added in order to make your TextChangedListener work
     int numGames;
+    String playerName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
         games.add(game3);
         Player player = new Player(games);
         dbRef.child("Augustana Vikings").child("Players").child("Max").setValue(player);*/
+
+        playerName = getIntent().getExtras().getString("playerName");
 
         initializeTextFields();
         initializeData();
@@ -138,13 +142,18 @@ public class MainActivity extends AppCompatActivity {
          "Max" -> currentPlayer
          "Augustana Vikings" -> currentTeam
          */
-        DatabaseReference playerRef = dbRef.child("Augustana Vikings").child("Players").child("Max");
+        DatabaseReference playerRef = dbRef.child("Augustana Vikings").child("Players").child(playerName);
         playerRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Player player = dataSnapshot.getValue(Player.class);
                 // setting the value of this for when the user tries to view a different game
-                numGames = player.getGames().size();
+                try{
+                    numGames = player.getGames().size();
+                }
+                catch(Exception e){
+                    finish();
+                }
                 // offset by 1 because of arrays starting at 0 and passing the game corresponding to the game number
                 updateTextFields(player.getGame(Integer.parseInt(gameNumberField.getText().toString()) - 1));
 
@@ -176,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
     This is how you can update the current team player Max's values of the current game
      */
     public void updateDatabase(int gameIndex) {
-        DatabaseReference playerRef = dbRef.child("Augustana Vikings").child("Players").child("Max");
+        DatabaseReference playerRef = dbRef.child("Augustana Vikings").child("Players").child(playerName);
         Game game;
         if(gameIndex > numGames || gameIndex < 0){
             Toast.makeText(MainActivity.this, "Invalid Game Index", Toast.LENGTH_SHORT).show();

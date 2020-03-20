@@ -33,7 +33,7 @@ public class FrontPageActivity extends AppCompatActivity {
         gameLogButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(FrontPageActivity.this, MainActivity.class);
+                Intent i = new Intent(FrontPageActivity.this, ChoosePlayerActivity.class);
                 startActivity(i);
             }
         });
