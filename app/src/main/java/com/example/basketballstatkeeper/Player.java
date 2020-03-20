@@ -6,13 +6,15 @@ import java.util.ArrayList;
 public class Player {
 
     private ArrayList<Game> games;
+    private String name;
 
     public Player(){
     }
 
 
-    public Player(ArrayList<Game> g) {
+    public Player(ArrayList<Game> g, String n) {
         games = g;
+        name = n;
     }
 
     public ArrayList<Game> getGames(){
@@ -31,8 +33,13 @@ public class Player {
         games.add(game);
     }
 
+    public String getName() {
+        return name;
+    }
 
-
+    public void setName(String name) {
+        this.name = name;
+    }
 
     //below are getter methods for average and totals of all stat categories
     public double getAveragePoints(){

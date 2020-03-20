@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     // added in order to make your TextChangedListener work
     int numGames;
     String playerName;
+    int playerIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,15 +55,6 @@ public class MainActivity extends AppCompatActivity {
          * This was me adding a player / games to a DB. When you first pull this version you will need
          * to un-comment this and run this once to setup your DB how I had this working
          */
-        /*ArrayList<Game> games = new ArrayList<>();
-        Game game1 = new Game(1,1,1,1,1,1,1);
-        Game game2 = new Game(0,0,0,0,0,0,0);
-        Game game3 = new Game(1,1,1,1,1,1,1);
-        games.add(game1);
-        games.add(game2);
-        games.add(game3);
-        Player player = new Player(games);
-        dbRef.child("Augustana Vikings").child("Players").child("Max").setValue(player);*/
 
         playerName = getIntent().getExtras().getString("playerName");
 
@@ -142,18 +134,18 @@ public class MainActivity extends AppCompatActivity {
          "Max" -> currentPlayer
          "Augustana Vikings" -> currentTeam
          */
-        DatabaseReference playerRef = dbRef.child("Augustana Vikings").child("Players").child(playerName);
-        playerRef.addValueEventListener(new ValueEventListener() {
+        DatabaseReference teamRef = dbRef.child("Augustana Vikings");
+        teamRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Player player = dataSnapshot.getValue(Player.class);
+                Team team = dataSnapshot.getValue(Team.class);
+                Player player = team.getPlayer(playerName);
+                playerIndex = team.getPlayerIndex(playerName);
                 // setting the value of this for when the user tries to view a different game
-                try{
-                    numGames = player.getGames().size();
-                }
-                catch(Exception e){
+                if(player == null){
                     finish();
                 }
+                numGames = player.getGames().size();
                 // offset by 1 because of arrays starting at 0 and passing the game corresponding to the game number
                 updateTextFields(player.getGame(Integer.parseInt(gameNumberField.getText().toString()) - 1));
 
@@ -185,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
     This is how you can update the current team player Max's values of the current game
      */
     public void updateDatabase(int gameIndex) {
-        DatabaseReference playerRef = dbRef.child("Augustana Vikings").child("Players").child(playerName);
+        DatabaseReference playerRef = dbRef.child("Augustana Vikings").child("players").child(String.valueOf(playerIndex));
         Game game;
         if(gameIndex > numGames || gameIndex < 0){
             Toast.makeText(MainActivity.this, "Invalid Game Index", Toast.LENGTH_SHORT).show();
