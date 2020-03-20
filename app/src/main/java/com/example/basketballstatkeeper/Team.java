@@ -35,5 +35,9 @@ public class Team {
         return -1;
     }
 
+    public int getNumPlayers(){
+        return players.size();
+    }
+
 
 }
