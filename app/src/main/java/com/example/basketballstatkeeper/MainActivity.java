@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     EditText turnoversField;
 
     Button submitButton;
+    Button addGameButton;
     EditText gameNumberField;
 
 
@@ -75,6 +77,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        addGameButton = findViewById(R.id.addGameButton);
+        addGameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("NUM GAMES BEFORE UDB: " + numGames);
+                updateDatabase(numGames);
+                Toast.makeText(MainActivity.this, "Success! You now have " + (numGames+1) + " games saved.", Toast.LENGTH_SHORT).show();
+                System.out.println("NUM GAMES AFTER UDB: " + numGames);
+
+            }
+        });
+
 
         /*
         Made this block of code so that the user cannot put an input in that would crash the app
@@ -84,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence c, int start, int before, int count) {
                 if (!c.toString().matches("")) {
                     int gameIndex = Integer.parseInt(c.toString());
-                    if (gameIndex <= numGames || gameIndex > 0) {
+                    if (gameIndex <= numGames) {
                         initializeData();
                     } else {
                         Toast.makeText(MainActivity.this, "You only have " + numGames + " saved games.", Toast.LENGTH_SHORT).show();
@@ -163,13 +177,23 @@ public class MainActivity extends AppCompatActivity {
      */
     public void updateDatabase(int gameIndex) {
         DatabaseReference playerRef = dbRef.child("Augustana Vikings").child("Players").child("Max");
-        Game game = new Game(Integer.parseInt(minutesField.getText().toString()),
-                Integer.parseInt(pointsField.getText().toString()),
-                Integer.parseInt(assistsField.getText().toString()),
-                Integer.parseInt(reboundsField.getText().toString()),
-                Integer.parseInt(stealsField.getText().toString()),
-                Integer.parseInt(blocksField.getText().toString()),
-                Integer.parseInt(turnoversField.getText().toString()));
+        Game game;
+        if(gameIndex > numGames || gameIndex < 0){
+            Toast.makeText(MainActivity.this, "Invalid Game Index", Toast.LENGTH_SHORT).show();
+
+        }
+        if(gameIndex < numGames) {
+            game = new Game(Integer.parseInt(minutesField.getText().toString()),
+                    Integer.parseInt(pointsField.getText().toString()),
+                    Integer.parseInt(assistsField.getText().toString()),
+                    Integer.parseInt(reboundsField.getText().toString()),
+                    Integer.parseInt(stealsField.getText().toString()),
+                    Integer.parseInt(blocksField.getText().toString()),
+                    Integer.parseInt(turnoversField.getText().toString()));
+        }
+        else{
+            game = new Game(0,0,0,0,0,0,0);
+        }
 
         playerRef.child("games").child(String.valueOf(gameIndex)).setValue(game);
 
