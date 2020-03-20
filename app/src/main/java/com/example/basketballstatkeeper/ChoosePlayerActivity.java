@@ -9,6 +9,7 @@ import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -17,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ChoosePlayerActivity extends AppCompatActivity {
@@ -24,6 +26,7 @@ public class ChoosePlayerActivity extends AppCompatActivity {
     Button gameLogButton;
     EditText playerNameEditText;
     Button addPlayerButton;
+    TextView playerOptionsText;
 
 
     Button addNewPlayerButton;
@@ -46,7 +49,7 @@ public class ChoosePlayerActivity extends AppCompatActivity {
         /**
          * Initializes to Test data
          */
-        ArrayList<Game> games = new ArrayList<>();
+        /*ArrayList<Game> games = new ArrayList<>();
         Game game1 = new Game(1,1,1,1,1,1,1);
         Game game2 = new Game(0,0,0,0,0,0,0);
         Game game3 = new Game(1,1,1,1,1,1,1);
@@ -69,11 +72,13 @@ public class ChoosePlayerActivity extends AppCompatActivity {
         ps.add(player2);
         Team team = new Team(ps);
 
-        dbRef.child("My Team").setValue(team);
+        dbRef.child("My Team").setValue(team);*/
 
 
         playerNameEditText = findViewById(R.id.playerNameEditText);
-        pullDBData(); //initializes numPlayers
+        playerOptionsText = findViewById(R.id.playerNamesOptions);
+        pullDBData(); //initializes numPlayers and the options for players
+
 
         gameLogButton = findViewById(R.id.goToGameLogsButton);
         gameLogButton.setOnClickListener(new View.OnClickListener() {
@@ -150,6 +155,11 @@ public class ChoosePlayerActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Team team = dataSnapshot.getValue(Team.class);
                 numPlayers = team.getNumPlayers();
+                ArrayList <String> playerNames = new ArrayList<>();
+                for (int p = 0; p < team.getNumPlayers(); p++){
+                    playerNames.add(team.getPlayer(p).getName());
+                }
+                updatePlayerOptions(playerNames);
             }
 
             @Override
@@ -157,6 +167,14 @@ public class ChoosePlayerActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void updatePlayerOptions(ArrayList<String> names){
+        String newOptions = "";
+        for (String s : names){
+            newOptions = newOptions  + "-" + s + "\n";
+        }
+        playerOptionsText.setText(newOptions);
     }
 
     public void addPlayerToDB(final String n){

@@ -26,6 +26,10 @@ public class Team {
         return null;
     }
 
+    public Player getPlayer(int index){
+        return players.get(index);
+    }
+
     public int getPlayerIndex(String name){
         for (int i = 0; i < players.size(); i++){
             if(players.get(i).getName().equals(name)){
