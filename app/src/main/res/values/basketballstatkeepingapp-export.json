@@ -1,0 +1,148 @@
+{
+  "Teams" : {
+    "My Team" : {
+      "averageAssists" : 12.333333333333334,
+      "averageBlocks" : 0.6666666666666666,
+      "averageMinutes" : 111.66666666666667,
+      "averagePoints" : 57,
+      "averageRebounds" : 12.333333333333334,
+      "averageSteals" : 4,
+      "averageTurnovers" : 5.666666666666667,
+      "numPlayers" : 3,
+      "players" : [ {
+        "averageAssists" : 6.333333333333333,
+        "averageBlocks" : 0,
+        "averageMinutesPlayed" : 42,
+        "averagePoints" : 28,
+        "averageRebounds" : 5,
+        "averageSteals" : 2,
+        "averageTurnovers" : 4,
+        "games" : [ {
+          "assists" : 7,
+          "blocks" : 0,
+          "minutesPlayed" : 41,
+          "points" : 22,
+          "rebounds" : 2,
+          "steals" : 1,
+          "turnovers" : 4
+        }, {
+          "assists" : 4,
+          "blocks" : 0,
+          "minutesPlayed" : 42,
+          "points" : 37,
+          "rebounds" : 7,
+          "steals" : 2,
+          "turnovers" : 5
+        }, {
+          "assists" : 8,
+          "blocks" : 0,
+          "minutesPlayed" : 43,
+          "points" : 25,
+          "rebounds" : 6,
+          "steals" : 3,
+          "turnovers" : 3
+        } ],
+        "name" : "Stephen Curry",
+        "numGames" : 3,
+        "totalAssists" : 19,
+        "totalBlocks" : 0,
+        "totalMinutesPlayed" : 126,
+        "totalPoints" : 84,
+        "totalRebounds" : 15,
+        "totalSteals" : 6,
+        "totalTurnovers" : 12
+      }, {
+        "averageAssists" : 2,
+        "averageBlocks" : 0.6666666666666666,
+        "averageMinutesPlayed" : 34.333333333333336,
+        "averagePoints" : 8.666666666666666,
+        "averageRebounds" : 3.3333333333333335,
+        "averageSteals" : 0,
+        "averageTurnovers" : 1.3333333333333333,
+        "games" : [ {
+          "assists" : 2,
+          "blocks" : 1,
+          "minutesPlayed" : 39,
+          "points" : 9,
+          "rebounds" : 2,
+          "steals" : 0,
+          "turnovers" : 1
+        }, {
+          "assists" : 2,
+          "blocks" : 0,
+          "minutesPlayed" : 40,
+          "points" : 12,
+          "rebounds" : 3,
+          "steals" : 0,
+          "turnovers" : 1
+        }, {
+          "assists" : 2,
+          "blocks" : 1,
+          "minutesPlayed" : 24,
+          "points" : 5,
+          "rebounds" : 5,
+          "steals" : 0,
+          "turnovers" : 2
+        } ],
+        "name" : "Klay Thompson",
+        "numGames" : 3,
+        "totalAssists" : 6,
+        "totalBlocks" : 2,
+        "totalMinutesPlayed" : 103,
+        "totalPoints" : 26,
+        "totalRebounds" : 10,
+        "totalSteals" : 0,
+        "totalTurnovers" : 4
+      }, {
+        "averageAssists" : 4,
+        "averageBlocks" : 0,
+        "averageMinutesPlayed" : 35.333333333333336,
+        "averagePoints" : 20.333333333333332,
+        "averageRebounds" : 7,
+        "averageSteals" : 2,
+        "averageTurnovers" : 0.3333333333333333,
+        "games" : [ {
+          "assists" : 0,
+          "blocks" : 0,
+          "minutesPlayed" : 39,
+          "points" : 22,
+          "rebounds" : 8,
+          "steals" : 1,
+          "turnovers" : 1
+        }, {
+          "assists" : 7,
+          "blocks" : 0,
+          "minutesPlayed" : 42,
+          "points" : 14,
+          "rebounds" : 8,
+          "steals" : 3,
+          "turnovers" : 0
+        }, {
+          "assists" : 5,
+          "blocks" : 0,
+          "minutesPlayed" : 25,
+          "points" : 25,
+          "rebounds" : 5,
+          "steals" : 2,
+          "turnovers" : 0
+        } ],
+        "name" : "Andre Iguodala",
+        "numGames" : 3,
+        "totalAssists" : 12,
+        "totalBlocks" : 0,
+        "totalMinutesPlayed" : 106,
+        "totalPoints" : 61,
+        "totalRebounds" : 21,
+        "totalSteals" : 6,
+        "totalTurnovers" : 1
+      } ],
+      "totalAssists" : 37,
+      "totalBlocks" : 2,
+      "totalMinutes" : 335,
+      "totalPoints" : 171,
+      "totalRebounds" : 46,
+      "totalSteals" : 12,
+      "totalTurnovers" : 17
+    }
+  }
+}

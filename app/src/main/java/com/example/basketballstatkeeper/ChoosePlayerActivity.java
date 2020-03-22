@@ -50,29 +50,40 @@ public class ChoosePlayerActivity extends AppCompatActivity {
          * Initializes to Test data
          */
         ArrayList<Game> games = new ArrayList<>();
-        Game game1 = new Game(1,1,1,1,1,1,1);
-        Game game2 = new Game(0,0,0,0,0,0,0);
-        Game game3 = new Game(1,1,1,1,1,1,1);
+        Game game1 = new Game(41,22,2,7,1,0,4);
+        Game game2 = new Game(42,37,7,4,2,0,5);
+        Game game3 = new Game(43,25,6,8,3,0,3);
         games.add(game1);
         games.add(game2);
         games.add(game3);
-        Player player = new Player(games, "Max");
+        Player player = new Player(games, "Stephen Curry");
         //dbRef.child("My Team").child("Players").child("Max").setValue(player);
 
        ArrayList<Game> games2 = new ArrayList<>();
-        Game game11 = new Game(1,1,1,1,1,1,1);
-        Game game22 = new Game(0,0,0,0,0,0,0);
-        Game game23 = new Game(0,0,0,0,0,0,0);
+        Game game11 = new Game(39,9,2,2,0,1,1);
+        Game game22 = new Game(40,12,3,2,0,0,1);
+        Game game23 = new Game(24,5,5,2,0,1,2);
 
         games2.add(game11);
         games2.add(game22);
         games2.add(game23);
-        Player player2 = new Player(games2, "Dylan");
+        Player player2 = new Player(games2, "Klay Thompson");
+
+        ArrayList<Game> games3 = new ArrayList<>();
+        Game game21 = new Game(39,22,8,0,1,0,1);
+        Game game77 = new Game(42,14,8,7,3,0,0);
+        Game game8 = new Game(25,25,5,5,2,0,0);
+
+        games3.add(game21);
+        games3.add(game77);
+        games3.add(game8);
+        Player player3 = new Player(games3, "Andre Iguodala");
         //dbRef.child("My Team").child("Players").child("Dylan").setValue(player2);
 
         ArrayList<Player> ps = new ArrayList<>();
         ps.add(player);
         ps.add(player2);
+        ps.add(player3);
         Team team = new Team(ps);
 
         dbRef.child("My Team").setValue(team);
