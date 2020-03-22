@@ -49,7 +49,7 @@ public class ChoosePlayerActivity extends AppCompatActivity {
         /**
          * Initializes to Test data
          */
-        /*ArrayList<Game> games = new ArrayList<>();
+        ArrayList<Game> games = new ArrayList<>();
         Game game1 = new Game(1,1,1,1,1,1,1);
         Game game2 = new Game(0,0,0,0,0,0,0);
         Game game3 = new Game(1,1,1,1,1,1,1);
@@ -62,8 +62,11 @@ public class ChoosePlayerActivity extends AppCompatActivity {
        ArrayList<Game> games2 = new ArrayList<>();
         Game game11 = new Game(1,1,1,1,1,1,1);
         Game game22 = new Game(0,0,0,0,0,0,0);
+        Game game23 = new Game(0,0,0,0,0,0,0);
+
         games2.add(game11);
         games2.add(game22);
+        games2.add(game23);
         Player player2 = new Player(games2, "Dylan");
         //dbRef.child("My Team").child("Players").child("Dylan").setValue(player2);
 
@@ -72,7 +75,7 @@ public class ChoosePlayerActivity extends AppCompatActivity {
         ps.add(player2);
         Team team = new Team(ps);
 
-        dbRef.child("My Team").setValue(team);*/
+        dbRef.child("My Team").setValue(team);
 
 
         playerNameEditText = findViewById(R.id.playerNameEditText);
