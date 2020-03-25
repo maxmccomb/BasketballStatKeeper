@@ -25,13 +25,8 @@ public class ChoosePlayerActivity extends AppCompatActivity {
 
     Button gameLogButton;
     EditText playerNameEditText;
-    Button addPlayerButton;
     TextView playerOptionsText;
 
-
-    Button addNewPlayerButton;
-    Button cancelButton;
-    EditText newPlayerNameEditText;
 
     FirebaseDatabase db = FirebaseDatabase.getInstance();
     // beginning the DB with "Teams" for future expanding
@@ -91,8 +86,15 @@ public class ChoosePlayerActivity extends AppCompatActivity {
 
         playerNameEditText = findViewById(R.id.playerNameEditText);
         playerOptionsText = findViewById(R.id.playerNamesOptions);
-        pullDBData(); //initializes numPlayers and the options for players
 
+
+        /*public void updatePlayerOptions(ArrayList<String> names){
+            String newOptions = "";
+            for (String s : names){
+                newOptions = newOptions  + "-" + s + "\n";
+            }
+            //playerOptionsText.setText(newOptions);
+        }*/
 
         gameLogButton = findViewById(R.id.goToGameLogsButton);
         gameLogButton.setOnClickListener(new View.OnClickListener() {
@@ -100,102 +102,16 @@ public class ChoosePlayerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(ChoosePlayerActivity.this, MainActivity.class);
                 String playerName = playerNameEditText.getText().toString();
-                if(playerName.matches("")){
+                if (playerName.matches("")) {
                     Toast.makeText(ChoosePlayerActivity.this, "Please enter in a valid player name", Toast.LENGTH_SHORT).show();
-                }
-                else{
+                } else {
                     i.putExtra("playerName", playerName);
                     startActivity(i);
                 }
             }
         });
 
-        newPlayerNameEditText = findViewById(R.id.newPlayerNameEditText);
-        newPlayerNameEditText.setVisibility(View.INVISIBLE);
 
-        addNewPlayerButton = findViewById(R.id.addPlayerSubmit);
-        addNewPlayerButton.setVisibility(View.INVISIBLE);
-
-        cancelButton = findViewById(R.id.cancelAddingPlayerButton);
-        cancelButton.setVisibility(View.INVISIBLE);
-
-        addNewPlayerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String enteredName = newPlayerNameEditText.getText().toString();
-                if(enteredName.matches("")){
-                    Toast.makeText(ChoosePlayerActivity.this, "Please enter a player name", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    addPlayerToDB(enteredName);
-                    newPlayerNameEditText.setVisibility(View.INVISIBLE);
-                    addNewPlayerButton.setVisibility(View.INVISIBLE);
-                    cancelButton.setVisibility(View.INVISIBLE);
-                    addPlayerButton.setVisibility(View.VISIBLE);
-                }
-
-            }
-        });
-
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                newPlayerNameEditText.setVisibility(View.INVISIBLE);
-                addNewPlayerButton.setVisibility(View.INVISIBLE);
-                cancelButton.setVisibility(View.INVISIBLE);
-                addPlayerButton.setVisibility(View.VISIBLE);
-            }
-        });
-
-        //Check for intent index here to see if it came from the analytics activity
-
-        addPlayerButton = findViewById(R.id.addPlayerButton);
-        addPlayerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addPlayerButton.setVisibility(View.INVISIBLE);
-                newPlayerNameEditText.setVisibility(View.VISIBLE);
-                addNewPlayerButton.setVisibility(View.VISIBLE);
-                cancelButton.setVisibility(View.VISIBLE);
-            }
-        });
-
-    }
-
-    public void pullDBData(){
-        final DatabaseReference teamRef = dbRef.child("My Team");
-        teamRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Team team = dataSnapshot.getValue(Team.class);
-                numPlayers = team.getNumPlayers();
-                ArrayList <String> playerNames = new ArrayList<>();
-                for (int p = 0; p < team.getNumPlayers(); p++){
-                    playerNames.add(team.getPlayer(p).getName());
-                }
-                updatePlayerOptions(playerNames);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    public void updatePlayerOptions(ArrayList<String> names){
-        String newOptions = "";
-        for (String s : names){
-            newOptions = newOptions  + "-" + s + "\n";
-        }
-        playerOptionsText.setText(newOptions);
-    }
-
-    public void addPlayerToDB(final String n){
-        DatabaseReference teamRef = dbRef.child("My Team");
-        ArrayList<Game> gs = new ArrayList<>();
-        gs.add(new Game(0,0,0,0,0,0,0));
-        Player p = new Player(gs, n);
-        teamRef.child("players").child(String.valueOf(numPlayers)).setValue(p);
     }
 }
+

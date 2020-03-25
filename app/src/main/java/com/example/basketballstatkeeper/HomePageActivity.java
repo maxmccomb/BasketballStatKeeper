@@ -10,11 +10,15 @@ import android.widget.Button;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class HomePageActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class HomePageActivity extends AppCompatActivity implements AddPlayerDialog.AddPlayerDialogListener {
 
     Button continueButton;
     Button newTeamButton;
     Button aboutButton;
+
+    String newPlayerName;
 
     FirebaseDatabase db = FirebaseDatabase.getInstance();
     // beginning the DB with "Teams" for future expanding
@@ -39,6 +43,14 @@ public class HomePageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dbRef.setValue(null);
+                openDialog();
+                ArrayList<Player> ps = new ArrayList<>();
+                ArrayList<Game> gs = new ArrayList<>();
+                gs.add(new Game (0,0,0,0,0,0,0));
+                Player player = new Player(gs, newPlayerName);
+                ps.add(player);
+                Team team = new Team(ps);
+                dbRef.child("My Team").setValue(team);
                 Intent i = new Intent(HomePageActivity.this, FrontPageActivity.class);
                 startActivity(i);
             }
@@ -53,5 +65,15 @@ public class HomePageActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void applyText(String name) {
+        newPlayerName = name;
+    }
+
+    public void openDialog(){
+        AddPlayerDialog apd = new AddPlayerDialog();
+        apd.show(getSupportFragmentManager(), "add player dialog");
     }
 }
