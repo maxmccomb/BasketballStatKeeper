@@ -9,8 +9,11 @@ import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -22,6 +25,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
+    Spinner playerNamesSpinner;
 
     EditText minutesField;
     EditText pointsField;
@@ -42,8 +47,10 @@ public class MainActivity extends AppCompatActivity {
 
     // added in order to make your TextChangedListener work
     int numGames;
-    String playerName;
+    ArrayList<String> playerNames = new ArrayList<>();
     int playerIndex;
+
+    Boolean initialLoadCheck = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +62,12 @@ public class MainActivity extends AppCompatActivity {
          * This was me adding a player / games to a DB. When you first pull this version you will need
          * to un-comment this and run this once to setup your DB how I had this working
          */
-
-        playerName = getIntent().getExtras().getString("playerName");
+        playerNamesSpinner = findViewById(R.id.playerNamesSpinnerMain);
 
         initializeTextFields();
+
+        pullDBData();
+
         initializeData();
 
         submitButton = findViewById(R.id.submitButton);
@@ -112,6 +121,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        playerNamesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String name = playerNamesSpinner.getSelectedItem().toString();
+                if(!name.matches("")){
+                    initializeData();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         System.out.println("DONE WITH ONCREATE METHOD");
     }
 
@@ -126,11 +150,34 @@ public class MainActivity extends AppCompatActivity {
         gameNumberField = findViewById(R.id.gameNumber);
     }
 
+
+    public void pullDBData(){
+        final DatabaseReference teamRef = dbRef.child("My Team");
+        teamRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(initialLoadCheck){
+                    Team team = dataSnapshot.getValue(Team.class);
+                    for (int p = 0; p < team.getNumPlayers(); p++){
+                        playerNames.add(team.getPlayer(p).getName());
+                    }
+                    ArrayAdapter<String> adp = new ArrayAdapter<String> (MainActivity.this,android.R.layout.simple_spinner_dropdown_item,playerNames);
+                    playerNamesSpinner.setAdapter(adp);
+                    initialLoadCheck = false;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     public void initializeData() {
         /*
          making a reference to the current player..which can be anything later on and you would need
          to pass a string value into where "Max" currently is..same for the team value
-
          "Max" -> currentPlayer
          "My Team" -> currentTeam
          */
@@ -139,12 +186,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Team team = dataSnapshot.getValue(Team.class);
-                Player player = team.getPlayer(playerName);
-                playerIndex = team.getPlayerIndex(playerName);
-                // setting the value of this for when the user tries to view a different game
-                if(player == null){
-                    finish();
-                }
+                Player player = team.getPlayer(playerNamesSpinner.getSelectedItemPosition());
+                playerIndex = playerNamesSpinner.getSelectedItemPosition();
                 numGames = player.getGames().size();
                 // offset by 1 because of arrays starting at 0 and passing the game corresponding to the game number
                 updateTextFields(player.getGame(Integer.parseInt(gameNumberField.getText().toString()) - 1));
