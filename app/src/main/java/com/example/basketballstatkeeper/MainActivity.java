@@ -190,7 +190,14 @@ public class MainActivity extends AppCompatActivity {
                 playerIndex = playerNamesSpinner.getSelectedItemPosition();
                 numGames = player.getGames().size();
                 // offset by 1 because of arrays starting at 0 and passing the game corresponding to the game number
-                updateTextFields(player.getGame(Integer.parseInt(gameNumberField.getText().toString()) - 1));
+                if(Integer.parseInt(gameNumberField.getText().toString()) > numGames){
+                    gameNumberField.setText(numGames+"");
+                    updateTextFields(player.getGame(numGames - 1));
+
+                }
+                else {
+                    updateTextFields(player.getGame(Integer.parseInt(gameNumberField.getText().toString()) - 1));
+                }
 
             }
 
