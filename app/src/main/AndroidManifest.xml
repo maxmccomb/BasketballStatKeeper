@@ -10,8 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".aboutActivity"/>
-        <activity android:name=".HomePageActivity"/>
-        <activity android:name=".ChoosePlayerActivity" />
         <activity android:name=".AnalyticsActivity" />
         <activity android:name=".FrontPageActivity">
             <intent-filter>
