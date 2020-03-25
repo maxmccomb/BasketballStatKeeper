@@ -20,16 +20,20 @@ import java.util.ArrayList;
 
 public class FrontPageActivity extends AppCompatActivity {
 
+    //buttons that bring the user to a new activity
     Button gameLogButton;
     Button analyticsButton;
 
+    //buttons used to add a new player
     Button addPlayerButton;
     Button addNewPlayerButton;
     Button cancelButton;
     EditText newPlayerNameEditText;
 
+    //number of players on your team
     int numPlayers;
 
+    //References to Firebase
     FirebaseDatabase db = FirebaseDatabase.getInstance();
     // beginning the DB with "Teams" for future expanding
     DatabaseReference dbRef = db.getReference("Teams");
@@ -78,22 +82,23 @@ public class FrontPageActivity extends AppCompatActivity {
 
         dbRef.child("My Team").setValue(team);*/
 
+        //must initialize them early so they can be set to invisible
         gameLogButton = findViewById(R.id.gameLogButton);
         analyticsButton = findViewById(R.id.analyticsButton);
 
         pullDBData();
 
 
-
+        //starts the GameLog Activity (MainActivity.java)
         gameLogButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(FrontPageActivity.this, MainActivity.class);
-                i.putExtra("playerName", "Max");
                 startActivity(i);
             }
         });
 
+        //starts the Analytics Activity (AnalyticsActivity.java)
         analyticsButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -102,15 +107,18 @@ public class FrontPageActivity extends AppCompatActivity {
             }
         });
 
+        //initialization for buttons to add players.  Starts off invisible
         newPlayerNameEditText = findViewById(R.id.newPlayerNameEditText);
         newPlayerNameEditText.setVisibility(View.INVISIBLE);
-
         addNewPlayerButton = findViewById(R.id.addPlayerSubmit);
         addNewPlayerButton.setVisibility(View.INVISIBLE);
-
         cancelButton = findViewById(R.id.cancelButton);
         cancelButton.setVisibility(View.INVISIBLE);
 
+
+        /*
+            calls method to add a player to the database and sets the add player buttons to invisible
+         */
         addNewPlayerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,6 +137,9 @@ public class FrontPageActivity extends AppCompatActivity {
             }
         });
 
+        /*
+            hides the add player buttons.  Reverts to normal
+         */
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,8 +150,9 @@ public class FrontPageActivity extends AppCompatActivity {
             }
         });
 
-        //Check for intent index here to see if it came from the analytics activity
-
+        /*
+            shows the add player buttons
+         */
         addPlayerButton = findViewById(R.id.addPlayerButton);
         addPlayerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,15 +168,21 @@ public class FrontPageActivity extends AppCompatActivity {
 
 
 
+    /*
+        Determines whether the app should allow the user to see the game logs and analytics
+         depending on if there is valid data within Firebase
+     */
     public void pullDBData(){
         dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                //there is no data in Firebase
                 if(dataSnapshot.child("My Team").exists() == false){
                     gameLogButton.setVisibility(View.INVISIBLE);
                     analyticsButton.setVisibility(View.INVISIBLE);
                 }
+                //there is existing data in Firebase
                 else{
                     Team team = dataSnapshot.child("My Team").getValue(Team.class);
                     numPlayers = team.getNumPlayers();
@@ -181,13 +199,16 @@ public class FrontPageActivity extends AppCompatActivity {
     }
 
 
-
+    /*
+        adds a player the database
+    */
     public void addPlayerToDB(final String n){
         DatabaseReference teamRef = dbRef.child("My Team");
         ArrayList<Game> games = new ArrayList<>();
         games.add(new Game(0,0,0,0,0,0,0));
         Player player = new Player(games, n);
 
+        //if this is the first player being added we have to push a whole team to the database
         if(numPlayers == 0){
             ArrayList<Player> ps = new ArrayList<>();
             ps.add(player);
