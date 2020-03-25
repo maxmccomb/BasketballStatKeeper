@@ -26,8 +26,10 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    //displays the player names on the team
     Spinner playerNamesSpinner;
 
+    //fields to edit players stats in each category
     EditText minutesField;
     EditText pointsField;
     EditText assistsField;
@@ -38,18 +40,22 @@ public class MainActivity extends AppCompatActivity {
 
     Button submitButton;
     Button addGameButton;
+
+    //allows the user to edit different games.  Text field for game numbers
     EditText gameNumberField;
 
-
+    //Firebase references
     FirebaseDatabase db = FirebaseDatabase.getInstance();
     // beginning the DB with "Teams" for future expanding
     DatabaseReference dbRef = db.getReference("Teams");
 
-    // added in order to make your TextChangedListener work
+    //number of games the player has played
     int numGames;
+    //
     ArrayList<String> playerNames = new ArrayList<>();
     int playerIndex;
 
+    //only used in pullDBData() method
     Boolean initialLoadCheck = true;
 
     @Override
@@ -57,11 +63,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // TODO:
-        /**
-         * This was me adding a player / games to a DB. When you first pull this version you will need
-         * to un-comment this and run this once to setup your DB how I had this working
-         */
         playerNamesSpinner = findViewById(R.id.playerNamesSpinnerMain);
 
         initializeTextFields();
@@ -70,18 +71,19 @@ public class MainActivity extends AppCompatActivity {
 
         initializeData();
 
+        //when called, calls updateDatabase method to change values to what was in the EditTexts
         submitButton = findViewById(R.id.submitButton);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                 changed this call to updateDB to take the gameIndex with -1 on the end because array
-                 lists start at 0
-                 */
                 updateDatabase(Integer.parseInt(gameNumberField.getText().toString()) - 1);
             }
         });
 
+        /*
+            calls update database with an index out of bounds to create a new entry in the database
+             then displays a message saying the operation was successful
+         */
         addGameButton = findViewById(R.id.addGameButton);
         addGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,8 +98,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         /*
-        Made this block of code so that the user cannot put an input in that would crash the app
-        and this allows for the screen to be updated dynamically
+            when the game index is changed, calls the initializeData method to update what is
+             displayed.  if the desired game index is out of bounds, a message will display
+             telling the user that they only have ___ saved games. 
          */
         gameNumberField.addTextChangedListener(new TextWatcher() {
             public void onTextChanged(CharSequence c, int start, int before, int count) {
@@ -110,17 +113,19 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
-
-
             public void beforeTextChanged(CharSequence c, int start, int count, int after) {
                 // this space intentionally left blank
             }
 
             public void afterTextChanged(Editable c) {
-                // this one too
+                // this space intentionally left blank
             }
         });
 
+        /*
+            when the selected item changes in the spinner, calls the initializeData method to
+             change what is displayed
+         */
         playerNamesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -132,22 +137,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                // this space intentionally left blank
             }
         });
 
         System.out.println("DONE WITH ONCREATE METHOD");
-    }
-
-    public void initializeTextFields() {
-        minutesField = findViewById(R.id.editTextMinutes);
-        pointsField = findViewById(R.id.editTextPoints);
-        assistsField = findViewById(R.id.editTextAssists);
-        reboundsField = findViewById(R.id.editTextRebounds);
-        stealsField = findViewById(R.id.editTextSteals);
-        blocksField = findViewById(R.id.editTextBlocks);
-        turnoversField = findViewById(R.id.editTextTO);
-        gameNumberField = findViewById(R.id.gameNumber);
     }
 
 
@@ -169,18 +163,17 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                // this space intentionally left blank
             }
         });
     }
 
+    /*
+        Any time a value is changed in player name or game index, this method is called.  Grabs
+         data from the database and passes it on to methods to update the text fields. Offset
+         by -1 for a better display to the user.
+     */
     public void initializeData() {
-        /*
-         making a reference to the current player..which can be anything later on and you would need
-         to pass a string value into where "Max" currently is..same for the team value
-         "Max" -> currentPlayer
-         "My Team" -> currentTeam
-         */
         DatabaseReference teamRef = dbRef.child("My Team");
         teamRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -189,7 +182,10 @@ public class MainActivity extends AppCompatActivity {
                 Player player = team.getPlayer(playerNamesSpinner.getSelectedItemPosition());
                 playerIndex = playerNamesSpinner.getSelectedItemPosition();
                 numGames = player.getGames().size();
-                // offset by 1 because of arrays starting at 0 and passing the game corresponding to the game number
+                /*when switching players...  They may not have the same number of games
+                    if the new player and the current game index do not match up, then
+                    the game stats of their latest game will be displayed
+                */
                 if(Integer.parseInt(gameNumberField.getText().toString()) > numGames){
                     gameNumberField.setText(numGames+"");
                     updateTextFields(player.getGame(numGames - 1));
@@ -198,33 +194,35 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     updateTextFields(player.getGame(Integer.parseInt(gameNumberField.getText().toString()) - 1));
                 }
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                // this space intentionally left blank
             }
         });
     }
 
     /*
-    pretty simple to understand and EditText requires a string value so I just added "" + on the front
+        sets the text fields to the correct values when the player or game number changes
+        @param g - the game to be displayed
      */
-    public void updateTextFields(Game p) {
-        minutesField.setText("" + p.getMinutesPlayed());
-        pointsField.setText("" + p.getPoints());
-        assistsField.setText("" + p.getAssists());
-        reboundsField.setText("" + p.getRebounds());
-        stealsField.setText("" + p.getSteals());
-        blocksField.setText("" + p.getBlocks());
-        turnoversField.setText("" + p.getTurnovers());
+    public void updateTextFields(Game g) {
+        minutesField.setText("" + g.getMinutesPlayed());
+        pointsField.setText("" + g.getPoints());
+        assistsField.setText("" + g.getAssists());
+        reboundsField.setText("" + g.getRebounds());
+        stealsField.setText("" + g.getSteals());
+        blocksField.setText("" + g.getBlocks());
+        turnoversField.setText("" + g.getTurnovers());
 
     }
 
 
     /*
-    This is how you can update the current team player Max's values of the current game
+        updates data in the database to what is entered in the text fields.
+        @param gameIndex - the index of the current game to be updated.  If the index is
+         greater than the number of games, it will create a new entry in the database
      */
     public void updateDatabase(int gameIndex) {
         DatabaseReference playerRef = dbRef.child("My Team").child("players").child(String.valueOf(playerIndex));
@@ -242,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
                     Integer.parseInt(blocksField.getText().toString()),
                     Integer.parseInt(turnoversField.getText().toString()));
         }
-        else{
+        else{  //a new entry will be created here with a game object initialized to 0s for stats
             game = new Game(0,0,0,0,0,0,0);
         }
 
@@ -251,4 +249,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void initializeTextFields() {
+        minutesField = findViewById(R.id.editTextMinutes);
+        pointsField = findViewById(R.id.editTextPoints);
+        assistsField = findViewById(R.id.editTextAssists);
+        reboundsField = findViewById(R.id.editTextRebounds);
+        stealsField = findViewById(R.id.editTextSteals);
+        blocksField = findViewById(R.id.editTextBlocks);
+        turnoversField = findViewById(R.id.editTextTO);
+        gameNumberField = findViewById(R.id.gameNumber);
+    }
 }

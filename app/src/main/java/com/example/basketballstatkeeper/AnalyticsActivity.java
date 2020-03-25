@@ -71,7 +71,7 @@ public class AnalyticsActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                // this space intentionally left blank
             }
         });
 
@@ -84,7 +84,7 @@ public class AnalyticsActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                // this space intentionally left blank
             }
         });
 
@@ -97,7 +97,7 @@ public class AnalyticsActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                // this space intentionally left blank
             }
         });
 
@@ -157,7 +157,7 @@ public class AnalyticsActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                // this space intentionally left blank
             }
         });
 
@@ -184,7 +184,7 @@ public class AnalyticsActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                // this space intentionally left blank
             }
         });
     }
@@ -209,7 +209,7 @@ public class AnalyticsActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                // this space intentionally left blank
             }
         });
 
@@ -235,7 +235,7 @@ public class AnalyticsActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                // this space intentionally left blank
             }
         });
 
@@ -259,7 +259,7 @@ public class AnalyticsActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                // this space intentionally left blank
             }
         });
     }
