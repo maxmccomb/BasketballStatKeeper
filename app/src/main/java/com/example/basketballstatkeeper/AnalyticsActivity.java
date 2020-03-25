@@ -21,11 +21,12 @@ import java.util.ArrayList;
 
 public class AnalyticsActivity extends AppCompatActivity {
 
+    //spinner to display data
     Spinner teamVsPlayerSpinner;
     Spinner playerNamesSpinner;
     Spinner totalsVsAverageSpinner;
 
-
+    //to display the data.  Text will be changes based off of what is selected in spinners
     TextView minutesDisplay;
     TextView pointsDisplay;
     TextView assistsDisplay;
@@ -34,13 +35,17 @@ public class AnalyticsActivity extends AppCompatActivity {
     TextView blocksDisplay;
     TextView turnoversDisplay;
 
+    //Firebase references
     FirebaseDatabase db = FirebaseDatabase.getInstance();
     // beginning the DB with "Teams" for future expanding
     DatabaseReference dbRef = db.getReference("Teams");
 
+    //formats the outputs to 2 decimal places
     DecimalFormat df = new DecimalFormat("###.00");
 
+    //index of the current player that is being referenced
     int playerIndex;
+    //list of all current player names
     ArrayList<String> playerNames = new ArrayList<>();
 
     @Override
@@ -51,8 +56,10 @@ public class AnalyticsActivity extends AppCompatActivity {
         initializeTextFields();
         pullDBData();
 
+        //initializes text fields
         teamVsPlayerSpinner = findViewById(R.id.teamVsPlayerSpinner);
         playerNamesSpinner = findViewById(R.id.playerNameSpinner);
+        //playerNameSpinner set invisible because screen initialized to Team-Totals
         playerNamesSpinner.setVisibility(View.INVISIBLE);
         totalsVsAverageSpinner = findViewById(R.id.totalsVsAveragesSpinner);
 
@@ -97,12 +104,15 @@ public class AnalyticsActivity extends AppCompatActivity {
     }
 
 
-
+    /*
+        any time a spinner changes its value this method will be run. Directs what should be
+         displayed any time something changes in any of the spinners.
+     */
     public void handleSpinnerChange(){
-        String tvp = teamVsPlayerSpinner.getSelectedItem().toString();
-        String tva = totalsVsAverageSpinner.getSelectedItem().toString();
+        String tvp = teamVsPlayerSpinner.getSelectedItem().toString(); //will be Team or Player
+        String tva = totalsVsAverageSpinner.getSelectedItem().toString(); // will be Totals or Averages
         if(tvp.equals("Player")){
-            playerNamesSpinner.setVisibility(View.VISIBLE);
+            playerNamesSpinner.setVisibility(View.VISIBLE); //allows the user to select a player
             String playerName = playerNamesSpinner.getSelectedItem().toString();
             playerIndex = playerNames.indexOf(playerName);
             if (!playerName.matches("")){
@@ -125,6 +135,11 @@ public class AnalyticsActivity extends AppCompatActivity {
         }
     }
 
+
+    /*
+        sets text fields to be Player-<PLAYER_NAME>-Totals
+        @param i - index of the player being referenced
+     */
     public void setPlayerTotals(int i){
         DatabaseReference playerRef = dbRef.child("My Team").child("players").child(String.valueOf(i));
         playerRef.addValueEventListener(new ValueEventListener() {
@@ -148,6 +163,10 @@ public class AnalyticsActivity extends AppCompatActivity {
 
     }
 
+    /*
+        sets text fields to be Player-<PLAYER_NAME>-Averages
+        @param i - index of the player being referenced
+    */
     public void setPlayerAverages(int i){
         DatabaseReference playerRef = dbRef.child("My Team").child("players").child(String.valueOf(i));
         playerRef.addValueEventListener(new ValueEventListener() {
@@ -170,6 +189,9 @@ public class AnalyticsActivity extends AppCompatActivity {
         });
     }
 
+    /*
+        sets text fields to be Team-Totals.  This is the initial condition for the activity
+    */
     public void setTeamTotals(){
         DatabaseReference playerRef = dbRef.child("My Team");
         playerRef.addValueEventListener(new ValueEventListener() {
@@ -193,6 +215,9 @@ public class AnalyticsActivity extends AppCompatActivity {
 
     }
 
+    /*
+        sets text fields to be Team-Averages
+    */
     public void setTeamAverages(){
         DatabaseReference playerRef = dbRef.child("My Team");
         playerRef.addValueEventListener(new ValueEventListener() {
@@ -216,6 +241,9 @@ public class AnalyticsActivity extends AppCompatActivity {
 
     }
 
+    /*
+        grabs player names from database and initializes the values in the playerNamesSpinner
+     */
     public void pullDBData(){
         final DatabaseReference teamRef = dbRef.child("My Team");
         teamRef.addValueEventListener(new ValueEventListener() {
@@ -237,7 +265,9 @@ public class AnalyticsActivity extends AppCompatActivity {
     }
 
 
-
+    /*
+        initializes all TextViews
+     */
     public void initializeTextFields(){
          minutesDisplay = findViewById(R.id.minutesStatView);
          pointsDisplay = findViewById(R.id.pointsStatView);

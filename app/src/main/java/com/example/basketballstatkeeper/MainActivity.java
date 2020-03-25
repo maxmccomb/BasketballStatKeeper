@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
         teamRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(initialLoadCheck){
+                if(initialLoadCheck){ //should only run once.  Will add duplicates to spinner any time data is changed
                     Team team = dataSnapshot.getValue(Team.class);
                     for (int p = 0; p < team.getNumPlayers(); p++){
                         playerNames.add(team.getPlayer(p).getName());

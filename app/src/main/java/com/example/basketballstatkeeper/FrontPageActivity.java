@@ -201,6 +201,7 @@ public class FrontPageActivity extends AppCompatActivity {
 
     /*
         adds a player the database
+        @param n - the name of the new player
     */
     public void addPlayerToDB(final String n){
         DatabaseReference teamRef = dbRef.child("My Team");
