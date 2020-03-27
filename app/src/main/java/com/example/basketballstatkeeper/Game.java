@@ -2,6 +2,7 @@ package com.example.basketballstatkeeper;
 
 public class Game {
 
+    //stat fields for a player
     private int minutesPlayed;
     private int points;
     private int rebounds;
@@ -10,10 +11,12 @@ public class Game {
     private int blocks;
     private int turnovers;
 
+    //empty constructor for Firebase
     public Game() {
 
     }
 
+    //constructor
     public Game(int minutesPlayed, int points, int rebounds, int assists, int steals, int blocks, int turnovers) {
         this.minutesPlayed = minutesPlayed;
         this.points = points;
@@ -24,6 +27,7 @@ public class Game {
         this.turnovers = turnovers;
     }
 
+    //getters for fields
     public int getMinutesPlayed() {
         return minutesPlayed;
     }
@@ -52,6 +56,8 @@ public class Game {
         return turnovers;
     }
 
+
+    //setters for fields
     public void setMinutesPlayed(int minutesPlayed) {
         this.minutesPlayed = minutesPlayed;
     }

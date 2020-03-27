@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         /*
             when the game index is changed, calls the initializeData method to update what is
              displayed.  if the desired game index is out of bounds, a message will display
-             telling the user that they only have ___ saved games. 
+             telling the user that they only have ___ saved games.
          */
         gameNumberField.addTextChangedListener(new TextWatcher() {
             public void onTextChanged(CharSequence c, int start, int before, int count) {

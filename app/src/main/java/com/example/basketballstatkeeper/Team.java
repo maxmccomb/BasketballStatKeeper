@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Team {
     ArrayList <Player> players = new ArrayList<>();
 
+    //empty constructor for Firebase
     public Team (){
     }
 
@@ -12,10 +13,12 @@ public class Team {
         this.players = players;
     }
 
+    //returns the list of players
     public ArrayList<Player> getPlayers() {
         return players;
     }
 
+    //returns a player object given a a name of the player and null if the player is not in the list
     public Player getPlayer(String name){
         for (int i = 0; i < players.size(); i++){
             if(players.get(i).getName().equals(name)){
@@ -25,10 +28,12 @@ public class Team {
         return null;
     }
 
+    //returns a player given an index
     public Player getPlayer(int index){
         return players.get(index);
     }
 
+    //returns the index of the player given a name, returns -1 if that name is not in the list
     public int getPlayerIndex(String name){
         for (int i = 0; i < players.size(); i++){
             if(players.get(i).getName().equals(name)){
@@ -42,6 +47,8 @@ public class Team {
         return players.size();
     }
 
+
+    //below are getter methods for average and totals of all stat categories
     public int getTotalMinutes(){
         int sum = 0;
         for (int i = 0; i < players.size(); i++){

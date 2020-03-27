@@ -5,38 +5,46 @@ import java.util.ArrayList;
 
 public class Player {
 
-    private ArrayList<Game> games;
-    private String name;
+    private ArrayList<Game> games; //a player has a list of games played
+    private String name; //name of the player
 
+    //empty constructor for Firebase
     public Player(){
     }
 
 
+    //constructor
     public Player(ArrayList<Game> g, String n) {
         games = g;
         name = n;
     }
 
+    //returns a list of game objects
     public ArrayList<Game> getGames(){
         return games;
     }
 
+    //returns a game at a specified index
     public Game getGame(int index){
         return games.get(index);
     }
 
+    //returns the number of Game objects in the games ArrayList
     public int getNumGames(){
         return games.size();
     }
 
+    //adds a game to the ArrayList
     public void addGame(Game game){
         games.add(game);
     }
 
+    //returns the name of the player
     public String getName() {
         return name;
     }
 
+    //sets the name of the player
     public void setName(String name) {
         this.name = name;
     }

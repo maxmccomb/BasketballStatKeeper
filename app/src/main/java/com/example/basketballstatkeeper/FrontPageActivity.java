@@ -24,6 +24,9 @@ public class FrontPageActivity extends AppCompatActivity {
     Button gameLogButton;
     Button analyticsButton;
 
+    //button to navigate to the about screen
+    Button aboutButton;
+
     //buttons used to add a new player
     Button addPlayerButton;
     Button addNewPlayerButton;
@@ -81,6 +84,16 @@ public class FrontPageActivity extends AppCompatActivity {
         Team team = new Team(ps);
 
         dbRef.child("My Team").setValue(team);*/
+
+        //functionality to navigate to the about screen
+        aboutButton = findViewById(R.id.aboutButton);
+        aboutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(FrontPageActivity.this, aboutActivity.class);
+                startActivity(i);
+            }
+        });
 
         //must initialize them early so they can be set to invisible
         gameLogButton = findViewById(R.id.gameLogButton);
@@ -193,7 +206,7 @@ public class FrontPageActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                // this space intentionally left blank
             }
         });
     }
