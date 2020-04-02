@@ -76,7 +76,13 @@ public class MainActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateDatabase(Integer.parseInt(gameNumberField.getText().toString()) - 1);
+                int gameIndex = Integer.parseInt(gameNumberField.getText().toString()) - 1;
+                if(gameIndex <= numGames){
+                    updateDatabase(gameIndex);
+                }
+                else{
+                    Toast.makeText(MainActivity.this, "You only have " + numGames + " saved games.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
