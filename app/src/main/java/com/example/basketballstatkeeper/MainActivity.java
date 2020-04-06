@@ -240,8 +240,8 @@ public class MainActivity extends AppCompatActivity {
         if(gameIndex < numGames) {
             game = new Game(Integer.parseInt(minutesField.getText().toString()),
                     Integer.parseInt(pointsField.getText().toString()),
-                    Integer.parseInt(assistsField.getText().toString()),
                     Integer.parseInt(reboundsField.getText().toString()),
+                    Integer.parseInt(assistsField.getText().toString()),
                     Integer.parseInt(stealsField.getText().toString()),
                     Integer.parseInt(blocksField.getText().toString()),
                     Integer.parseInt(turnoversField.getText().toString()));
